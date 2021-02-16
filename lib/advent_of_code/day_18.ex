@@ -21,7 +21,7 @@ defmodule AdventOfCode.Day18 do
     {i, j} =
       list
       |> Enum.with_index()
-      |> find_open_close_parens(false, nil)
+      |> find_open_close_parens(nil, nil)
 
     value_within_parens = list |> Enum.slice(i..j) |> Enum.join() |> eval_fn.()
 
@@ -50,6 +50,7 @@ defmodule AdventOfCode.Day18 do
 
   defp eval_left_to_right(line) do
     line
+    |> IO.inspect(label: "line")
     |> String.replace(" ", "")
     |> String.split(~r{[\+|\*]}, include_captures: true)
     |> add_parens_from_left_to_right
@@ -70,6 +71,13 @@ defmodule AdventOfCode.Day18 do
 
   defp add_closing_parens(list, index, count) do
     add_closing_parens(List.insert_at(list, index + count, ")"), index + 2, count + 1)
+  end
+
+  defp do_math(list) do
+    list
+    |> Enum.join()
+    |> Code.eval_string()
+    |> elem(0)
   end
 
   def part2(args) do
@@ -114,13 +122,4 @@ defmodule AdventOfCode.Day18 do
         eval_addition_first(new_list)
     end
   end
-
-  defp do_math(list) do
-    list
-    |> Enum.join()
-    |> Code.eval_string()
-    |> elem(0)
-  end
-
-
 end
