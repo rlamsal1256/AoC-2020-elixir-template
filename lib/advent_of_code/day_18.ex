@@ -1,7 +1,6 @@
 defmodule AdventOfCode.Day18 do
   def part1(args) do
     args
-    |> IO.inspect(label: "args")
     |> Enum.map(fn line -> eval(line, &eval_left_to_right/1) end)
     |> Enum.sum()
   end
@@ -50,7 +49,6 @@ defmodule AdventOfCode.Day18 do
 
   defp eval_left_to_right(line) do
     line
-    |> IO.inspect(label: "line")
     |> String.replace(" ", "")
     |> String.split(~r{[\+|\*]}, include_captures: true)
     |> add_parens_from_left_to_right
